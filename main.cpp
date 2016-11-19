@@ -31,8 +31,9 @@ namespace {
 
 int main() {
     const std::string url("http://www.google.com/trends/fetchComponent?hl=en-US&date=today%203-m&q=debt,%2Fm%2F02lc8s,brexit&tz=Etc/GMT%2B4&content=1&cid=TIMESERIES_GRAPH_0&export=3");
-    std::regex r("\\((.*)\\);");
-    std::smatch m;
+    // std::regex pattern("^\\((.*)\\)");
+    
+    // std::smatch match;
 
     CURL* curl = curl_easy_init();
 
@@ -92,8 +93,10 @@ int main() {
         else {
             std::cout << "Could not parse HTTP data as JSON" << std::endl;
             std::cout << "HTTP data was:\n" << *httpData.get() << std::endl;
-            std::regex_search(*httpData.get(), m, r);
-            // for(auto v: m) std::cout << v << std::endl;
+            std::smatch matches;
+            regex_match(*httpData.get(), matches, std::regex("\\((.*)\\);", std::regex::optimize));
+            std::cout << matches.size() << std::endl;
+            
             return 1;
         }
     }
