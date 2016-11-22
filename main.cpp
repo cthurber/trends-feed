@@ -89,18 +89,12 @@ int main() {
         boost::erase_all(jsonAsString, ",,");
         // END 'cleanJsonData' function
 
-        // Debuggin mech.
-        std::cout << jsonAsString << std::endl;
-
         if (jsonReader.parse(jsonAsString, jsonData)) {
             std::cout << "Successfully parsed JSON data" << std::endl;
             std::cout << "\nJSON data received:" << std::endl;
             // std::cout << jsonData.toStyledString() << std::endl;
-
-            const std::string dateString(jsonData["date"].asString());
-            const std::size_t unixTimeMs(
-                    jsonData["milliseconds_since_epoch"].asUInt64());
-            const std::string timeString(jsonData["time"].asString());
+            
+            const std::string dateString(jsonData["table"].toStyledString());
 
             std::cout << "Natively parsed:" << std::endl;
             std::cout << "\tDate string: " << dateString << std::endl;
