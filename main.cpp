@@ -12,6 +12,7 @@
 #include <memory>
 #include <string>
 #include <regex>
+#include <boost/regex.hpp>
 
 #include <curl/curl.h>
 #include <json/json.h>
@@ -31,9 +32,6 @@ namespace {
 
 int main() {
     const std::string url("http://www.google.com/trends/fetchComponent?hl=en-US&date=today%203-m&q=debt,%2Fm%2F02lc8s,brexit&tz=Etc/GMT%2B4&content=1&cid=TIMESERIES_GRAPH_0&export=3");
-    // std::regex pattern("^\\((.*)\\)");
-    
-    // std::smatch match;
 
     CURL* curl = curl_easy_init();
 
@@ -52,6 +50,7 @@ int main() {
     // Response information.
     int httpCode(0);
     std::unique_ptr<std::string> httpData(new std::string());
+    // std::unique_ptr<std::string> jsonAsString(new std::string());
 
     // Hook up data handling function.
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, callback);
@@ -68,13 +67,20 @@ int main() {
 
     if (httpCode == 200) {
         std::cout << "\nGot successful response from " << url << std::endl;
-
+        std::string jsonAsString = "";
         // Response looks good - done using Curl now.  Try to parse the results
         // and print them out.
         Json::Value jsonData;
         Json::Reader jsonReader;
 
-        if (jsonReader.parse(*httpData, jsonData)) {
+        // Removes Google nonsense from json returned as string
+        std::smatch matches;
+        regex_search(*httpData.get(), matches, std::regex("(\\{.*\\})", std::regex::optimize));
+        jsonAsString += matches[1];
+        jsonAsString = jsonAsString.replace(jsonAsString.begin(), jsonAsString.end(), "new Date", "");
+        std::cout << jsonAsString << std::endl;
+
+        if (jsonReader.parse(jsonAsString, jsonData)) {
             std::cout << "Successfully parsed JSON data" << std::endl;
             std::cout << "\nJSON data received:" << std::endl;
             std::cout << jsonData.toStyledString() << std::endl;
@@ -86,16 +92,11 @@ int main() {
 
             std::cout << "Natively parsed:" << std::endl;
             std::cout << "\tDate string: " << dateString << std::endl;
-            std::cout << "\tUnix timeMs: " << unixTimeMs << std::endl;
-            std::cout << "\tTime string: " << timeString << std::endl;
             std::cout << std::endl;
         }
         else {
             std::cout << "Could not parse HTTP data as JSON" << std::endl;
             std::cout << "HTTP data was:\n" << *httpData.get() << std::endl;
-            std::smatch matches;
-            regex_match(*httpData.get(), matches, std::regex("\\((.*)\\);", std::regex::optimize));
-            std::cout << matches.size() << std::endl;
             
             return 1;
         }
