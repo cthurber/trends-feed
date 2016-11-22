@@ -13,6 +13,8 @@
 #include <string>
 #include <regex>
 #include <boost/regex.hpp>
+#include <boost/algorithm/string.hpp>
+#include <boost/algorithm/string/replace.hpp>
 
 #include <curl/curl.h>
 #include <json/json.h>
@@ -77,13 +79,20 @@ int main() {
         std::smatch matches;
         regex_search(*httpData.get(), matches, std::regex("(\\{.*\\})", std::regex::optimize));
         jsonAsString += matches[1];
-        jsonAsString = jsonAsString.replace(jsonAsString.begin(), jsonAsString.end(), "new Date", "");
+
+        // Customizations for string returned from Trends Server
+        boost::erase_all(jsonAsString, "new Date");
+        boost::replace_all(jsonAsString, "(", "[");
+        boost::replace_all(jsonAsString, ")", "]");
+        boost::erase_all(jsonAsString, ",,");
+
+        // Debuggin mech.
         std::cout << jsonAsString << std::endl;
 
         if (jsonReader.parse(jsonAsString, jsonData)) {
             std::cout << "Successfully parsed JSON data" << std::endl;
             std::cout << "\nJSON data received:" << std::endl;
-            std::cout << jsonData.toStyledString() << std::endl;
+            // std::cout << jsonData.toStyledString() << std::endl;
 
             const std::string dateString(jsonData["date"].asString());
             const std::size_t unixTimeMs(
@@ -96,7 +105,7 @@ int main() {
         }
         else {
             std::cout << "Could not parse HTTP data as JSON" << std::endl;
-            std::cout << "HTTP data was:\n" << *httpData.get() << std::endl;
+            // std::cout << "HTTP data was:\n" << *httpData.get() << std::endl;
             
             return 1;
         }
