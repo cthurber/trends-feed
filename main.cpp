@@ -76,6 +76,7 @@ int main() {
         Json::Value jsonData;
         Json::Reader jsonReader;
 
+        // START 'cleanJsonData' function
         // Removes Google nonsense from json returned as string
         std::smatch matches;
         regex_search(*httpData.get(), matches, std::regex("(\\{.*\\})", std::regex::optimize));
@@ -86,6 +87,7 @@ int main() {
         boost::replace_all(jsonAsString, "(", "[");
         boost::replace_all(jsonAsString, ")", "]");
         boost::erase_all(jsonAsString, ",,");
+        // END 'cleanJsonData' function
 
         // Debuggin mech.
         std::cout << jsonAsString << std::endl;
