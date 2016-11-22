@@ -94,7 +94,7 @@ int main() {
             std::cout << "\nJSON data received:" << std::endl;
             // std::cout << jsonData.toStyledString() << std::endl;
             
-            const std::string dateString(jsonData["table"].toStyledString());
+            const std::string dateString(jsonData["table"]["rows"].toStyledString());
 
             std::cout << "Natively parsed:" << std::endl;
             std::cout << "\tDate string: " << dateString << std::endl;
