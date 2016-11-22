@@ -13,8 +13,11 @@
 #include <string>
 #include <regex>
 #include <boost/regex.hpp>
+<<<<<<< HEAD
 #include <boost/algorithm/string.hpp>
 #include <boost/algorithm/string/replace.hpp>
+=======
+>>>>>>> 33f3049e1e7c698ff23a072e1d51b0b39774eadf
 
 #include <curl/curl.h>
 #include <json/json.h>
@@ -105,7 +108,7 @@ int main() {
         }
         else {
             std::cout << "Could not parse HTTP data as JSON" << std::endl;
-            // std::cout << "HTTP data was:\n" << *httpData.get() << std::endl;
+            std::cout << "HTTP data was:\n" << *httpData.get() << std::endl;
             
             return 1;
         }
