@@ -13,11 +13,9 @@
 #include <string>
 #include <regex>
 #include <boost/regex.hpp>
-<<<<<<< HEAD
+
 #include <boost/algorithm/string.hpp>
 #include <boost/algorithm/string/replace.hpp>
-=======
->>>>>>> 33f3049e1e7c698ff23a072e1d51b0b39774eadf
 
 #include <curl/curl.h>
 #include <json/json.h>
@@ -34,6 +32,7 @@ namespace {
         return totalBytes;
     }
 }
+
 
 int main() {
     const std::string url("http://www.google.com/trends/fetchComponent?hl=en-US&date=today%203-m&q=debt,%2Fm%2F02lc8s,brexit&tz=Etc/GMT%2B4&content=1&cid=TIMESERIES_GRAPH_0&export=3");
