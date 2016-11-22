@@ -94,10 +94,12 @@ int main() {
             std::cout << "\nJSON data received:" << std::endl;
             // std::cout << jsonData.toStyledString() << std::endl;
             
-            const std::string dateString(jsonData["table"]["rows"].toStyledString());
+            const std::string rowString(jsonData["table"]["rows"].toStyledString());
+
+            // TODO: iterate over JSON rows
 
             std::cout << "Natively parsed:" << std::endl;
-            std::cout << "\tDate string: " << dateString << std::endl;
+            std::cout << "\tRows string: " << rowString << std::endl;
             std::cout << std::endl;
         }
         else {
