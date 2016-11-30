@@ -96,11 +96,14 @@ int main() {
             
             const std::string rowString(jsonData["table"]["rows"].toStyledString());
 
-            // TODO: iterate over JSON rows
 
-            std::cout << "Natively parsed:" << std::endl;
-            std::cout << "\tRows string: " << rowString << std::endl;
-            std::cout << std::endl;
+            // TODO: iterate over JSON rows
+            std::set<std::string>::iterator iter;
+            for(auto const& item : jsonData["table"]["rows"]) {
+                std::string dateString(item["c"][0]["f"].toStyledString());
+                
+                std::cout << dateString << std::endl;
+            }
         }
         else {
             std::cout << "Could not parse HTTP data as JSON" << std::endl;

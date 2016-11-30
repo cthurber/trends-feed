@@ -1,1 +1,1 @@
-g++ main.cpp -boost -ljsoncpp -lcurl -o example.out && ./example.out
+g++ main.cpp -ljsoncpp -lcurl -lboost_system -o example.out && ./example.out
