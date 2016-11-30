@@ -92,17 +92,23 @@ int main() {
         if (jsonReader.parse(jsonAsString, jsonData)) {
             std::cout << "Successfully parsed JSON data" << std::endl;
             std::cout << "\nJSON data received:" << std::endl;
-            // std::cout << jsonData.toStyledString() << std::endl;
             
-            const std::string rowString(jsonData["table"]["rows"].toStyledString());
+            // Array to store Trends data for printing:
+            for(auto const& row : jsonData["table"]["rows"]) {
 
+                std::cout << row["c"] << std::endl;
 
-            // TODO: iterate over JSON rows
-            std::set<std::string>::iterator iter;
-            for(auto const& item : jsonData["table"]["rows"]) {
-                std::string dateString(item["c"][0]["f"].toStyledString());
+                std::string rowString("");
+                std::string dateString(row["c"][0]["f"].toStyledString());
                 
-                std::cout << dateString << std::endl;
+                // Within each day, get each datapoint
+                // row["c"][1+]
+                // std::cout << dateString << std::endl;
+                for(int subindex = 1; subindex < jsonData["c"].size(); subindex++) {
+                    std::cout << dateString << std::endl;
+                    std::cout << jsonData["c"][subindex]["v"] << std::endl;
+                }
+
             }
         }
         else {
