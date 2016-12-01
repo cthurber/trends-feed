@@ -96,22 +96,22 @@ int main() {
             // Array to store Trends data for printing:
             for(auto const& row : jsonData["table"]["rows"]) {
 
+                // Initialize empty string to store data for CSV
                 std::string rowString("");
-                std::string dateString(row["c"][0]["f"].toStyledString());
-                // rowString += dateString;
-                // rowString += " ";
-                
-                // Within each day, get each datapoint
-                std::cout << dateString << std::endl;
-                // std::cout << row["c"][1] << std::endl;
-                // std::cout << row["c"][2] << std::endl;
-                for(int subindex = 1; subindex <= row["c"].size(); subindex++) {
-                    std::cout << row["c"][subindex]["v"] << std::endl;
-                    // rowString << row["c"][subindex]["v"];
-                    // rowString << " ";
-                }
 
-                std::cout << rowString << std::endl;
+                // First element is always date; add this to rowString
+                std::string dateString(row["c"][0]["f"].asString());
+                boost::replace_all(dateString, ",", "");
+                rowString = rowString + dateString + ",";
+
+                // Within each day, get each datapoint (Exclude weekends here?)
+                for(int subindex = 1; subindex <= row["c"].size(); subindex++) {
+                    rowString = rowString + row["c"][subindex]["v"].asString() + ",";
+                }
+                rowString = rowString + "\n";
+
+                // Completed rowString printed to console
+                std::cout << rowString;
             }
         }
         else {
