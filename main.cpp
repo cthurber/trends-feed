@@ -98,7 +98,8 @@ int main() {
 
                 std::string rowString("");
                 std::string dateString(row["c"][0]["f"].toStyledString());
-                rowString += " ";
+                // rowString += dateString;
+                // rowString += " ";
                 
                 // Within each day, get each datapoint
                 std::cout << dateString << std::endl;
@@ -106,8 +107,8 @@ int main() {
                 // std::cout << row["c"][2] << std::endl;
                 for(int subindex = 1; subindex <= row["c"].size(); subindex++) {
                     std::cout << row["c"][subindex]["v"] << std::endl;
-                    rowString += row["c"][subindex]["v"];
-                    rowString += " ";
+                    // rowString << row["c"][subindex]["v"];
+                    // rowString << " ";
                 }
 
                 std::cout << rowString << std::endl;
