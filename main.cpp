@@ -1,6 +1,6 @@
 //
 //  main.cpp
-//  Stratspp
+//  GoogleTrends Scraper
 //
 //  Created by Chris Thurber on 11/18/16.
 //  Copyright © 2016 Chris Thurber. All rights reserved.
@@ -96,19 +96,21 @@ int main() {
             // Array to store Trends data for printing:
             for(auto const& row : jsonData["table"]["rows"]) {
 
-                std::cout << row["c"] << std::endl;
-
                 std::string rowString("");
                 std::string dateString(row["c"][0]["f"].toStyledString());
+                rowString += " ";
                 
                 // Within each day, get each datapoint
-                // row["c"][1+]
-                // std::cout << dateString << std::endl;
-                for(int subindex = 1; subindex < jsonData["c"].size(); subindex++) {
-                    std::cout << dateString << std::endl;
-                    std::cout << jsonData["c"][subindex]["v"] << std::endl;
+                std::cout << dateString << std::endl;
+                // std::cout << row["c"][1] << std::endl;
+                // std::cout << row["c"][2] << std::endl;
+                for(int subindex = 1; subindex <= row["c"].size(); subindex++) {
+                    std::cout << row["c"][subindex]["v"] << std::endl;
+                    rowString += row["c"][subindex]["v"];
+                    rowString += " ";
                 }
 
+                std::cout << rowString << std::endl;
             }
         }
         else {
