@@ -33,9 +33,10 @@ namespace {
     }
 }
 
-int main() {
-    const std::string url("http://www.google.com/trends/fetchComponent?hl=en-US&date=today%203-m&q=debt,%2Fm%2F02lc8s,brexit&tz=Etc/GMT%2B4&content=1&cid=TIMESERIES_GRAPH_0&export=3");
-
+int main(int argc, char* argv[]) {
+    std::string url(argv[1]);
+    // std::string url("http://www.google.com/trends/fetchComponent?hl=en-US&date=today%203-m&q=debt,%2Fm%2F02lc8s,brexit&tz=Etc/GMT%2B4&content=1&cid=TIMESERIES_GRAPH_0&export=3");
+    // std::string fname(argv[2]);
     CURL* curl = curl_easy_init();
 
     // Set remote URL.
@@ -53,7 +54,6 @@ int main() {
     // Response information.
     int httpCode(0);
     std::unique_ptr<std::string> httpData(new std::string());
-    // std::unique_ptr<std::string> jsonAsString(new std::string());
 
     // Hook up data handling function.
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, callback);
@@ -69,7 +69,8 @@ int main() {
     curl_easy_cleanup(curl);
 
     if (httpCode == 200) {
-        std::cout << "\nGot successful response from " << url << std::endl;
+        // Muted until file out feature completed to pipe to file
+        // std::cout << "\nGot successful response from " << url << std::endl;
         std::string jsonAsString = "";
         // Response looks good - done using Curl now.  Try to parse the results
         // and print them out.
@@ -90,8 +91,9 @@ int main() {
         // END 'cleanJsonData' function
 
         if (jsonReader.parse(jsonAsString, jsonData)) {
-            std::cout << "Successfully parsed JSON data" << std::endl;
-            std::cout << "\nJSON data received:" << std::endl;
+            // Muted until file out feature completed to pipe to file
+            // std::cout << "Successfully parsed JSON data" << std::endl;
+            // std::cout << "\nJSON data received:" << std::endl;
             
             // Array to store Trends data for printing:
             for(auto const& row : jsonData["table"]["rows"]) {
@@ -115,7 +117,7 @@ int main() {
                     // Completed rowString printed to console
                     std::cout << rowString;
                 }
-
+                // std::cout << "FName == " << fname << std::endl;
             }
         }
         else {
