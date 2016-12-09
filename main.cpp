@@ -90,11 +90,13 @@ int main(int argc, char* argv[]) {
         boost::erase_all(jsonAsString, ",,");
         // END 'cleanJsonData' function
 
+        std::cout << jsonAsString << std::endl;
+
         if (jsonReader.parse(jsonAsString, jsonData)) {
             // Muted until file out feature completed to pipe to file
             // std::cout << "Successfully parsed JSON data" << std::endl;
             // std::cout << "\nJSON data received:" << std::endl;
-            
+
             // Store headers for CSV file
             std::string headString("");
             for(auto const& colus : jsonData["table"]["cols"]) {
@@ -130,7 +132,7 @@ int main(int argc, char* argv[]) {
         else {
             std::cout << "Could not parse HTTP data as JSON" << std::endl;
             std::cout << "HTTP data was:\n" << *httpData.get() << std::endl;
-            
+
             return 1;
         }
     }
