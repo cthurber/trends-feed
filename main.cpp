@@ -95,6 +95,13 @@ int main(int argc, char* argv[]) {
             // std::cout << "Successfully parsed JSON data" << std::endl;
             // std::cout << "\nJSON data received:" << std::endl;
             
+            // Store headers for CSV file
+            std::string headString("");
+            for(auto const& colus : jsonData["table"]["cols"]) {
+                headString = headString + colus["label"].asString() + ",";
+            }
+            std::cout << headString << std::endl;
+
             // Array to store Trends data for printing:
             for(auto const& row : jsonData["table"]["rows"]) {
 

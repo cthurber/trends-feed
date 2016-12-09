@@ -1,1 +1,0 @@
-g++ main.cpp -ljsoncpp -lcurl -lboost_system -o trends-feed && ./trends-feed "http://www.google.com/trends/fetchComponent?hl=en-US&date=today%203-m&q=debt,%2Fm%2F02lc8s,brexit&tz=Etc/GMT%2B4&content=1&cid=TIMESERIES_GRAPH_0&export=3"
